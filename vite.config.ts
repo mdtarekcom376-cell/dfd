@@ -14,10 +14,10 @@ export default defineConfig({
   },
   vite: {
     optimizeDeps: {
-      // Sanity Studio is large and only loaded client-side on /studio.
-      // Pre-bundling it can clash with TanStack Start's virtual modules during
-      // re-optimization, so let Vite handle it lazily instead.
-      exclude: ["sanity", "sanity/structure", "@sanity/vision"],
+      // Sanity Studio (and its CJS deps like react-is / styled-components) must be
+      // pre-bundled so Vite can convert them to ESM. Without this, modules like
+      // react-is fail with "does not provide an export named 'default'".
+      include: ["sanity", "sanity/structure", "react-is", "styled-components"],
     },
   },
 });
