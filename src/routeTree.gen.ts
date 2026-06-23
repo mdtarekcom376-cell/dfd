@@ -9,11 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as StudioRouteImport } from './routes/studio'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as StudioSplatRouteImport } from './routes/studio.$'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 
+const StudioRoute = StudioRouteImport.update({
+  id: '/studio',
+  path: '/studio',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ShopRoute = ShopRouteImport.update({
   id: '/shop',
   path: '/shop',
@@ -29,6 +36,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StudioSplatRoute = StudioSplatRouteImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => StudioRoute,
+} as any)
 const ProductSlugRoute = ProductSlugRouteImport.update({
   id: '/product/$slug',
   path: '/product/$slug',
@@ -39,38 +51,65 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
   '/shop': typeof ShopRoute
+  '/studio': typeof StudioRouteWithChildren
   '/product/$slug': typeof ProductSlugRoute
+  '/studio/$': typeof StudioSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
   '/shop': typeof ShopRoute
+  '/studio': typeof StudioRouteWithChildren
   '/product/$slug': typeof ProductSlugRoute
+  '/studio/$': typeof StudioSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
   '/shop': typeof ShopRoute
+  '/studio': typeof StudioRouteWithChildren
   '/product/$slug': typeof ProductSlugRoute
+  '/studio/$': typeof StudioSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/contact' | '/shop' | '/product/$slug'
+  fullPaths:
+    | '/'
+    | '/contact'
+    | '/shop'
+    | '/studio'
+    | '/product/$slug'
+    | '/studio/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/contact' | '/shop' | '/product/$slug'
-  id: '__root__' | '/' | '/contact' | '/shop' | '/product/$slug'
+  to: '/' | '/contact' | '/shop' | '/studio' | '/product/$slug' | '/studio/$'
+  id:
+    | '__root__'
+    | '/'
+    | '/contact'
+    | '/shop'
+    | '/studio'
+    | '/product/$slug'
+    | '/studio/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ContactRoute: typeof ContactRoute
   ShopRoute: typeof ShopRoute
+  StudioRoute: typeof StudioRouteWithChildren
   ProductSlugRoute: typeof ProductSlugRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/studio': {
+      id: '/studio'
+      path: '/studio'
+      fullPath: '/studio'
+      preLoaderRoute: typeof StudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/shop': {
       id: '/shop'
       path: '/shop'
@@ -92,6 +131,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/studio/$': {
+      id: '/studio/$'
+      path: '/$'
+      fullPath: '/studio/$'
+      preLoaderRoute: typeof StudioSplatRouteImport
+      parentRoute: typeof StudioRoute
+    }
     '/product/$slug': {
       id: '/product/$slug'
       path: '/product/$slug'
@@ -102,10 +148,22 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface StudioRouteChildren {
+  StudioSplatRoute: typeof StudioSplatRoute
+}
+
+const StudioRouteChildren: StudioRouteChildren = {
+  StudioSplatRoute: StudioSplatRoute,
+}
+
+const StudioRouteWithChildren =
+  StudioRoute._addFileChildren(StudioRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContactRoute: ContactRoute,
   ShopRoute: ShopRoute,
+  StudioRoute: StudioRouteWithChildren,
   ProductSlugRoute: ProductSlugRoute,
 }
 export const routeTree = rootRouteImport

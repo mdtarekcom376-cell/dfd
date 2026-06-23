@@ -12,4 +12,12 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  vite: {
+    optimizeDeps: {
+      // Sanity Studio is large and only loaded client-side on /studio.
+      // Pre-bundling it can clash with TanStack Start's virtual modules during
+      // re-optimization, so let Vite handle it lazily instead.
+      exclude: ["sanity", "sanity/structure", "@sanity/vision"],
+    },
+  },
 });
