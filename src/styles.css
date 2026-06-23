@@ -1,0 +1,127 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* SolaimanLipi - Bangla font */
+@font-face {
+  font-family: "SolaimanLipi";
+  src: url("https://cdn.jsdelivr.net/gh/maateen/bangla-web-fonts@main/fonts/solaiman-lipi/solaimanlipi-normal-v1.0.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-whatsapp: var(--whatsapp);
+  --color-whatsapp-foreground: var(--whatsapp-foreground);
+  --font-bangla: "SolaimanLipi", "Hind Siliguri", system-ui, sans-serif;
+  --font-display: "Fraunces", "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
+:root {
+  --radius: 0.75rem;
+  /* Warm ivory / terracotta palette */
+  --background: oklch(0.985 0.008 80);
+  --foreground: oklch(0.22 0.03 30);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.22 0.03 30);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.03 30);
+  --primary: oklch(0.45 0.13 25);         /* deep terracotta */
+  --primary-foreground: oklch(0.985 0.008 80);
+  --secondary: oklch(0.95 0.02 60);
+  --secondary-foreground: oklch(0.3 0.05 30);
+  --muted: oklch(0.95 0.015 70);
+  --muted-foreground: oklch(0.5 0.02 40);
+  --accent: oklch(0.78 0.13 60);          /* warm gold */
+  --accent-foreground: oklch(0.22 0.03 30);
+  --destructive: oklch(0.55 0.2 27);
+  --destructive-foreground: oklch(0.985 0.008 80);
+  --border: oklch(0.9 0.015 70);
+  --input: oklch(0.92 0.012 70);
+  --ring: oklch(0.45 0.13 25);
+  --whatsapp: oklch(0.62 0.15 150);
+  --whatsapp-foreground: oklch(0.985 0 0);
+}
+
+.dark {
+  --background: oklch(0.18 0.02 30);
+  --foreground: oklch(0.96 0.01 80);
+  --card: oklch(0.22 0.025 30);
+  --card-foreground: oklch(0.96 0.01 80);
+  --popover: oklch(0.22 0.025 30);
+  --popover-foreground: oklch(0.96 0.01 80);
+  --primary: oklch(0.7 0.14 30);
+  --primary-foreground: oklch(0.18 0.02 30);
+  --secondary: oklch(0.28 0.03 30);
+  --secondary-foreground: oklch(0.96 0.01 80);
+  --muted: oklch(0.28 0.025 30);
+  --muted-foreground: oklch(0.72 0.02 60);
+  --accent: oklch(0.78 0.13 60);
+  --accent-foreground: oklch(0.18 0.02 30);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.7 0.14 30);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  :lang(bn), .font-bangla {
+    font-family: var(--font-bangla);
+  }
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+}
+
+@utility container-x {
+  margin-inline: auto;
+  max-width: 1280px;
+  padding-inline: 1rem;
+}
+@media (min-width: 768px) {
+  .container-x { padding-inline: 2rem; }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@utility animate-fade-up {
+  animation: fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
