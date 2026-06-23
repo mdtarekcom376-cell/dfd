@@ -86,7 +86,7 @@ export interface Category {
   order: number;
 }
 
-const projectId = import.meta.env.VITE_SANITY_PROJECT_ID ?? "1qlynw8a";
+const projectId = import.meta.env.VITE_SANITY_PROJECT_ID ?? "pwsvbkdn";
 const dataset = import.meta.env.VITE_SANITY_DATASET ?? "production";
 
 export const sanityClient: SanityClient = createClient({
@@ -101,7 +101,7 @@ const imageBuilder = imageUrlBuilder(sanityClient);
 /** Canonical shop categories — merged with Sanity data when available. */
 export const DEFAULT_CATEGORIES: Category[] = [
   { _id: "local-all", _type: "category", slug: "all", title: { bn: "সব", en: "All" }, order: 0 },
-  { _id: "local-sari", _type: "category", slug: "sari", title: { bn: "শাড়ি", en: "Sari" }, order: 1 },
+  { _id: "local-sari", _type: "category", slug: "sari", title: { bn: "শাড়ি", en: "Sari" }, order: 1 },
   {
     _id: "local-bed",
     _type: "category",
@@ -109,8 +109,8 @@ export const DEFAULT_CATEGORIES: Category[] = [
     title: { bn: "বেডশিট/বেড ক্লথ", en: "Bed Cloth" },
     order: 2,
   },
-  { _id: "local-pajama", _type: "category", slug: "pajama", title: { bn: "পায়জামা", en: "Pajama" }, order: 3 },
-  { _id: "local-orna", _type: "category", slug: "orna", title: { bn: "ওড়না", en: "Orna" }, order: 4 },
+  { _id: "local-pajama", _type: "category", slug: "pajama", title: { bn: "পায়জামা", en: "Pajama" }, order: 3 },
+  { _id: "local-orna", _type: "category", slug: "orna", title: { bn: "ওড়না", en: "Orna" }, order: 4 },
   { _id: "local-other", _type: "category", slug: "other", title: { bn: "অন্যান্য", en: "Other Items" }, order: 5 },
 ];
 
