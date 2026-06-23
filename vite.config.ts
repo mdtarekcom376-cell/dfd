@@ -7,9 +7,23 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
+  // Explicitly enable the Nitro deploy plugin with the Vercel preset.
+  // Without an explicit `nitro` option, the deploy plugin is SKIPPED during a
+  // production build outside the Lovable sandbox (e.g. on Vercel), so no
+  // `.vercel/output` is generated and the deployment returns 404.
+  // Inside the sandbox this is auto-overridden to the cloudflare dev target.
+  nitro: { preset: "vercel" },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
     server: { entry: "server" },
+  },
+  vite: {
+    optimizeDeps: {
+      // Sanity Studio (and its CJS deps like react-is / styled-components) must be
+      // pre-bundled so Vite can convert them to ESM. Without this, modules like
+      // react-is fail with "does not provide an export named 'default'".
+      include: ["sanity", "sanity/structure", "react-is", "styled-components"],
+    },
   },
 });
